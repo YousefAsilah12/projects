@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+  }
+
+
+.main {
+  background-color: #ccc;
+}
+
+  .container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    width: 100%;
+    background-color: #333;
+    width: fit-content;
+    padding: 1rem;
+    margin: 0 auto;
+    border: black 2px solid;    
+    border-radius: 20px;
+  }
+
+  .c1,
+  .c2,
+  .c3 {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    gap: 1rem;
+    flex-grow: 1;
+  }
+
+  .img {
+    width: "100%";
+    height: "auto";
+    border: white solid 1px;
+    border-radius: 10px;
+  }
+</style>
+
+<body>
+  <div class="main">
+    <div class="container">
+      <div class="c1"></div>
+      <div class="c2"></div>
+      <div class="c3"></div>
+    </div>
+  </div>
+  <script>
+
+
+
+
+
+    async function getArray() {
+      const unsplashUrl =
+        `https://api.unsplash.com/search/photos?query=food_photography;&client_id=Q41e6XICtmOMn_52S_cVJlm9Oyyegw6oU6rYhFZIYYA&per_page=1000`;
+      const response = await fetch(unsplashUrl);
+      const data = await response.json();
+      return data.results;
+    }
+    let arr = [];
+    getArray().then(array => {
+      console.log(array);
+      // this will log the array of results from the API
+      let container = document.querySelector('.container');
+      let c1 = document.querySelector('.c1');
+      let c2 = document.querySelector('.c2');
+      let c3 = document.querySelector('.c3');
+      arr = array;
+      console.log(arr);
+      for (let i = 0; i < arr.length; i++) {
+        debugger
+        let h1 = c1.offsetHeight;
+        let h2 = c2.offsetHeight;
+        let h3 = c3.offsetHeight;
+        let min = Math.min(h1, h2, h3)
+        let nextAdd;
+        if (h1 === min) {
+          nextAdd = c1;
+        } else if (h2 === min) {
+          nextAdd = c2;
+        } else if (h3 === min) {
+          nextAdd = c3;
+        }
+
+
+        let img = document.createElement("img");
+        img.src = arr[i].urls.regular;
+        img.classList.add("img");
+
+        img.addEventListener("mouseover", () =>{
+          
+        })
+        // img.style.flex ="1";
+        // img.objectFit ="cover";
+        nextAdd.appendChild(img);
+      }
+
+    });
+  </script>
+</body>
+
+</html>
